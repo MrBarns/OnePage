@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 
@@ -7,6 +8,27 @@ from .forms import *
 
 # For feedback messages
 from django.contrib import messages
+
+def registerView(request):
+    form = RegisterForm()
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            user = form.save(commit = False)
+            user.email = user.email.lower()
+            user.save()
+
+            login(request, user)
+            return redirect('fill_details')
+
+        else:
+            messages.error(request, "Error occured during registration.\n \
+            Please try again.")
+
+
+    context = {'form': form}
+    return render(request, 'registration.html', context)
 
 def loginView(request):
     form = LoginForm()
@@ -25,6 +47,9 @@ def loginView(request):
     if user is not None:
         login(request, user)
         return redirect('fill_details')
+
+    else:
+        messages.error(request, "Incorrect username or password")
 
     context = {'form': form}
     return render(request, 'login_page.html', context)
