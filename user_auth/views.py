@@ -65,6 +65,15 @@ def logoutView(request):
 def fillDetailsView(request):
     form = detailsForm()
 
+    if request.method == 'POST':
+        form = detailsForm(request.POST)
+        if form.is_valid():
+            userdetails = form.save()
+            userdetails.save()
+            messages.success(request, "Details saved successfully")
+
+            return redirect('fill_details')
 
     context = {'form': form}
     return render(request, 'fill_details.html', context)
+
