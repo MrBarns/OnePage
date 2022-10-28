@@ -1,19 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div style="padding: 10px">
+    <h1 class="h1 mb-3 fw-normal">Login</h1>
+</div>
+
+<div class="row bg-dark bg-gradient text-white" style="padding: 25px">
+    <p>Enter your login details below</p>
 <form method="POST" action="">
     {% csrf_token %}
 
     {{ form.as_p }}
 
-    <input type="submit" value="Login">
+    <input class="w-10 btn btn-lg btn-primary" type="submit" value="Login">
 
     
 </form>
-
 <p>
-    Don't have an account yet?
-    <a href="{% url 'registration' %}">Register</a>
+    Forgotten your password?
+        <a href="{% url 'password_reset' %}">Reset</a>
+        <br>
+        Don't have an account yet?
+        <a href="{% url 'registration' %}">Register</a>
 
 </p>
+</div>
 {% endblock content %}

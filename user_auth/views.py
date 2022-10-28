@@ -32,24 +32,28 @@ def registerView(request):
 
 def loginView(request):
     form = LoginForm()
-    email = request.POST.get('email')
-    password = request.POST.get('password')
 
     if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
         try:
             user = User.objects.get(email = email)
             
         except:
             messages.error(request, "User does not exist")
+            return redirect('login')
     
-    user = authenticate(request, email = email, password = password)
+        user = authenticate(request, email = email, password = password)
 
-    if user is not None:
-        login(request, user)
-        return redirect('fill_details')
+        if user is not None:
+            login(request, user)
+            user = User.objects.get(email = email)
+            messages.success(request, f"Welcome, {user.username}")
+            return redirect('fill_details')
 
-    else:
-        messages.error(request, "Incorrect username or password")
+        else:
+            messages.error(request, "Incorrect username or password")
+            form = LoginForm()
 
     context = {'form': form}
     return render(request, 'login_page.html', context)
