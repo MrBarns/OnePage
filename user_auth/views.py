@@ -13,7 +13,6 @@ def registerView(request):
     form = RegisterForm()
     if request.method == 'POST':
         form = RegisterForm(request.POST)
-
         if form.is_valid():
             user = form.save(commit = False)
             user.email = user.email.lower()
@@ -42,7 +41,7 @@ def loginView(request):
         except:
             messages.error(request, "User does not exist")
             return redirect('login')
-    
+            
         user = authenticate(request, email = email, password = password)
 
         if user is not None:
@@ -69,6 +68,3 @@ def fillDetailsView(request):
 
     context = {'form': form}
     return render(request, 'fill_details.html', context)
-
-
-
