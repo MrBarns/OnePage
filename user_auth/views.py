@@ -2,6 +2,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 
+# For page restrictions
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
@@ -27,7 +29,7 @@ def registerView(request):
 
 
     context = {'form': form}
-    return render(request, 'registration.html', context)
+    return render(request, 'user_auth/registration.html', context)
 
 def loginView(request):
     form = LoginForm()
@@ -55,13 +57,13 @@ def loginView(request):
             form = LoginForm()
 
     context = {'form': form}
-    return render(request, 'login_page.html', context)
+    return render(request, 'user_auth/login_page.html', context)
 
 def logoutView(request):
     logout(request)
     return redirect('login')
 
-
+@login_required(login_url = 'login')
 def fillDetailsView(request):
     form = detailsForm()
 
@@ -75,5 +77,5 @@ def fillDetailsView(request):
             return redirect('fill_details')
 
     context = {'form': form}
-    return render(request, 'fill_details.html', context)
+    return render(request, 'user_auth/fill_details.html', context)
 

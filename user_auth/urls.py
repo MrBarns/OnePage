@@ -13,16 +13,16 @@ urlpatterns = [
 
     path('fill_details/', views.fillDetailsView, name = 'fill_details'),
 
-    path('reset_password/', auth_views.PasswordResetView.as_view(template_name = 'reset_request.html'),
+    path('reset_password/', auth_views.PasswordResetView.as_view(template_name = 'user_auth/reset_request.html'),
     name = "password_reset"),
 
-    path('reset_sent/', auth_views.PasswordResetDoneView.as_view(template_name = 'reset_mail_sent.html'),
+    path('reset_sent/', auth_views.PasswordResetDoneView.as_view(template_name = 'user_auth/reset_mail_sent.html'),
     name = "password_reset_done"),
 
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name = 'reset_password.html'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name = 'user_auth/reset_password.html'),
     name = "password_reset_confirm"),
 
-    path('reset_complete/', auth_views.PasswordResetCompleteView.as_view(template_name = 'reset_confirm.html'),
+    path('reset_complete/', auth_views.PasswordResetCompleteView.as_view(template_name = 'user_auth/reset_confirm.html'),
     name = "password_reset_complete"),
 ]
 
